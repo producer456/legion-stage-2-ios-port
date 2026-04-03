@@ -1,4 +1,5 @@
 #include "MainComponent.h"
+#include "AUScanner.h"
 
 #if JUCE_WINDOWS
  #include <mfapi.h>
@@ -325,6 +326,11 @@ MainComponent::MainComponent()
                 else if (result == 2) showSettingsMenu();
             });
     };
+
+    // iOS phone menu button
+    addAndMakeVisible(phoneMenuButton);
+    phoneMenuButton.setVisible(false);
+    phoneMenuButton.onClick = [this] { showPhoneMenu(); };
 
     // VIS button cycles: off -> fullscreen w/ controls -> projector (no chrome) -> off
     addAndMakeVisible(fullscreenButton);
@@ -2409,6 +2415,68 @@ void MainComponent::loadProject()
 void MainComponent::mouseDown(const juce::MouseEvent& e)
 {
     grabKeyboardFocus();
+
+#if JUCE_IOS
+    if (AUScanner::isIPhone() && !forceIPadLayout)
+    {
+        swipeStartPos = e.position;
+        swipeActive = true;
+    }
+#endif
+}
+
+void MainComponent::mouseDrag(const juce::MouseEvent& e)
+{
+    (void)e;
+}
+
+void MainComponent::mouseUp(const juce::MouseEvent& e)
+{
+#if JUCE_IOS
+    if (swipeActive)
+    {
+        swipeActive = false;
+        auto delta = e.position - swipeStartPos;
+        float absX = std::abs(delta.x);
+        float absY = std::abs(delta.y);
+        if (absX > 80.0f && absX > absY * 2.0f)
+        {
+            if (delta.x < 0)
+                selectTrack(juce::jmin(PluginHost::NUM_TRACKS - 1, selectedTrackIndex + 1));
+            else
+                selectTrack(juce::jmax(0, selectedTrackIndex - 1));
+        }
+    }
+#else
+    (void)e;
+#endif
+}
+
+void MainComponent::showPhoneMenu()
+{
+    juce::PopupMenu menu;
+    menu.addItem(1, "Save");
+    menu.addItem(2, "Load");
+    menu.addSeparator();
+    menu.addItem(3, "Undo");
+    menu.addItem(4, "Redo");
+    menu.addSeparator();
+    menu.addItem(5, "Audio Settings");
+    menu.addItem(6, "MIDI Learn " + juce::String(midiLearnActive ? "(ON)" : "(OFF)"));
+    menu.addSeparator();
+    menu.addItem(7, "iPad Layout");
+
+    menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&phoneMenuButton),
+        [this](int result) {
+            if (result == 0) return;
+            if (result == 1) saveProject();
+            else if (result == 2) loadProject();
+            else if (result == 3) { if (undoIndex > 0) { undoIndex--; restoreSnapshot(undoHistory[undoIndex]); } }
+            else if (result == 4) { if (undoIndex < (int)undoHistory.size() - 1) { undoIndex++; restoreSnapshot(undoHistory[undoIndex]); } }
+            else if (result == 5) showAudioSettings();
+            else if (result == 6) { midiLearnActive = !midiLearnActive; midiLearnButton.setToggleState(midiLearnActive, juce::dontSendNotification); }
+            else if (result == 7) { forceIPadLayout = true; resized(); repaint(); }
+        });
 }
 
 void MainComponent::paint(juce::Graphics& g)
@@ -2466,41 +2534,178 @@ void MainComponent::resized()
 {
     auto area = getLocalBounds();
 
-    // Inset for decorative side panels (e.g. Keystage wood cheeks)
-    if (auto* lnf = dynamic_cast<DawLookAndFeel*>(&getLookAndFeel()))
+#if JUCE_IOS
+    bool isPhone = AUScanner::isIPhone() && !forceIPadLayout;
+#else
+    bool isPhone = false;
+#endif
+
+    // Inset for decorative side panels (skip on iPhone)
+    if (!isPhone)
     {
-        int sidePW = lnf->getSidePanelWidth();
-        if (sidePW > 0)
+        if (auto* lnf = dynamic_cast<DawLookAndFeel*>(&getLookAndFeel()))
         {
-            area.removeFromLeft(sidePW);
-            area.removeFromRight(sidePW);
+            int sidePW = lnf->getSidePanelWidth();
+            if (sidePW > 0)
+            {
+                area.removeFromLeft(sidePW);
+                area.removeFromRight(sidePW);
+            }
         }
     }
 
+#if JUCE_IOS
+    int statusBarPad = isPhone ? 20 : 30;
+    area.removeFromTop(statusBarPad);
+    int topBarH = isPhone ? 80 : 70;
+#else
     int topBarH = 100;
-    int bottomBarH = 45;
-    int rightPanelW = 180;
+#endif
+    int bottomBarH = isPhone ? 0 : 45;
+    int rightPanelW = isPhone ? 0 : 180;
 
-    // ── Top Bar — all buttons in one row, square, evenly spaced ──
+    zoomOutButton.setVisible(false);
+    zoomInButton.setVisible(false);
+
+#if JUCE_IOS
+    auto topBar = area.removeFromTop(topBarH).reduced(4, isPhone ? 2 : 10);
+    if (!isPhone && rightPanelW > 0)
+        topBar.removeFromRight(rightPanelW);
+
+    if (isPhone)
+    {
+        // ── iPhone: two-row layout ──
+        int rowH = topBar.getHeight() / 2;
+        auto row1 = topBar.removeFromTop(rowH);
+        auto row2 = topBar;
+        int gap = 2;
+
+        // Row 1: transport + BPM
+        phoneMenuButton.setBounds(row1.removeFromRight(34));
+        phoneMenuButton.setVisible(true);
+        row1.removeFromRight(gap);
+        bpmLabel.setBounds(row1.removeFromRight(58));
+        row1.removeFromRight(gap);
+        beatPanel.setBounds(row1.removeFromRight(50));
+        row1.removeFromRight(gap);
+
+        int r1w = row1.getWidth();
+        int numR1 = 11;
+        int r1bw = (r1w - (numR1 - 1) * gap) / numR1;
+
+        stopButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        scrollLeftButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        playButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        scrollRightButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        recordButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        loopButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        metronomeButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        panicButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        countInButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        captureButton.setBounds(row1.removeFromLeft(r1bw)); row1.removeFromLeft(gap);
+        audioSettingsButton.setButtonText("Audio");
+        audioSettingsButton.setBounds(row1.removeFromLeft(row1.getWidth()));
+
+        // Row 2: clip tools + mode buttons
+        fullscreenButton.setButtonText("VIS");
+        fullscreenButton.setBounds(row2.removeFromRight(36)); row2.removeFromRight(gap);
+        pianoToggleButton.setBounds(row2.removeFromRight(42)); row2.removeFromRight(gap);
+        mixerButton.setBounds(row2.removeFromRight(36)); row2.removeFromRight(gap);
+
+        int r2w = row2.getWidth();
+        int numR2 = 10;
+        int r2bw = (r2w - (numR2 - 1) * gap) / numR2;
+
+        saveButton.setButtonText("Save"); saveButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        loadButton.setButtonText("Load"); loadButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        undoButton.setButtonText("Undo"); undoButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        redoButton.setButtonText("Redo"); redoButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        newClipButton.setButtonText("New"); newClipButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        deleteClipButton.setButtonText("Del"); deleteClipButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        duplicateClipButton.setButtonText("Dupe"); duplicateClipButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        splitClipButton.setButtonText("Split"); splitClipButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        quantizeButton.setButtonText("Quant"); quantizeButton.setBounds(row2.removeFromLeft(r2bw)); row2.removeFromLeft(gap);
+        goButton.setButtonText("GO"); goButton.setBounds(row2.removeFromLeft(row2.getWidth()));
+
+        // Hide desktop-only items
+        statusLabel.setBounds(0,0,0,0);
+        trackNameLabel.setVisible(false);
+        themeSelector.setVisible(false);
+        bpmDownButton.setVisible(false);
+        bpmUpButton.setVisible(false);
+        tapTempoButton.setVisible(false);
+        visSelector.setVisible(false);
+        midi2Button.setVisible(false);
+        quickKeysButton.setVisible(false);
+        projectorButton.setVisible(false);
+        gridSelector.setVisible(false);
+        midiLearnButton.setVisible(false);
+        goButton.setVisible(true);
+        captureButton.setVisible(true);
+    }
+    else
+    {
+        // ── iPad layout ──
+        phoneMenuButton.setVisible(false);
+
+        if (AUScanner::isIPhone())
+        {
+            settingsButton.setButtonText("PHN");
+            settingsButton.setBounds(topBar.removeFromRight(36));
+            settingsButton.setVisible(true);
+            settingsButton.onClick = [this] { forceIPadLayout = false; resized(); repaint(); };
+            topBar.removeFromRight(4);
+        }
+
+        // Left: BPM
+        bpmDownButton.setBounds(topBar.removeFromLeft(28)); topBar.removeFromLeft(2);
+        bpmLabel.setBounds(topBar.removeFromLeft(65)); topBar.removeFromLeft(2);
+        bpmUpButton.setBounds(topBar.removeFromLeft(28)); topBar.removeFromLeft(3);
+        tapTempoButton.setBounds(topBar.removeFromLeft(40)); topBar.removeFromLeft(12);
+
+        // Right: track tools
+        mixerButton.setBounds(topBar.removeFromRight(38)); topBar.removeFromRight(3);
+        pianoToggleButton.setBounds(topBar.removeFromRight(45)); topBar.removeFromRight(3);
+        captureButton.setBounds(topBar.removeFromRight(48)); topBar.removeFromRight(3);
+        goButton.setBounds(topBar.removeFromRight(38)); topBar.removeFromRight(3);
+        countInButton.setBounds(topBar.removeFromRight(70)); topBar.removeFromRight(3);
+        midiLearnButton.setBounds(topBar.removeFromRight(55)); topBar.removeFromRight(4);
+        trackNameLabel.setBounds(topBar.removeFromRight(140));
+        trackNameLabel.setVisible(true); topBar.removeFromRight(12);
+
+        // Center: transport
+        int transportW = 50+3+35+2+55+2+35+3+55+3+50+16+45+3+55;
+        int leftPad = juce::jmax(0, (topBar.getWidth() - transportW) / 2);
+        topBar.removeFromLeft(leftPad);
+        stopButton.setBounds(topBar.removeFromLeft(50)); topBar.removeFromLeft(3);
+        scrollLeftButton.setBounds(topBar.removeFromLeft(35)); topBar.removeFromLeft(2);
+        playButton.setBounds(topBar.removeFromLeft(55)); topBar.removeFromLeft(2);
+        scrollRightButton.setBounds(topBar.removeFromLeft(35)); topBar.removeFromLeft(3);
+        recordButton.setBounds(topBar.removeFromLeft(55)); topBar.removeFromLeft(3);
+        loopButton.setBounds(topBar.removeFromLeft(50)); topBar.removeFromLeft(16);
+        metronomeButton.setBounds(topBar.removeFromLeft(45)); topBar.removeFromLeft(3);
+        panicButton.setBounds(topBar.removeFromLeft(55));
+
+        statusLabel.setBounds(0,0,0,0);
+        beatPanel.setBounds(0,0,0,0);
+    }
+#else
+    // ── Desktop layout ──
     auto topBar = area.removeFromTop(topBarH).reduced(4, 8);
     int fullBarX = topBar.getX();
     int fullBarW = topBar.getWidth();
     int barY = topBar.getY();
     int barH = topBar.getHeight();
 
-    int bSz = barH;  // square button size = bar height
+    int bSz = barH;
     int gap = 4;
 
-    statusLabel.setBounds(0, 0, 0, 0);  // hidden — info merged into beatPanel
-    zoomOutButton.setVisible(false);
-    zoomInButton.setVisible(false);
-    trackNameLabel.setBounds(0, 0, 0, 0);  // hidden from layout
+    statusLabel.setBounds(0, 0, 0, 0);
+    trackNameLabel.setBounds(0, 0, 0, 0);
 
-    // All buttons + beat panel in one row
-    int numButtons = 15;  // 14 buttons + beat panel
+    int numButtons = 15;
     int availW = fullBarW - gap;
     int stride = availW / numButtons;
-    // Clamp button size: square but don't exceed stride minus gap
     int btnSz = juce::jmin(bSz, stride - gap);
     int bY = barY + (barH - btnSz) / 2;
     int tx = fullBarX;
@@ -2525,6 +2730,7 @@ void MainComponent::resized()
     placeBtn(scrollLeftButton);
     placeBtn(scrollRightButton);
     placeBtn(beatPanel);
+#endif
 
     // ── Fullscreen Visualizer Mode ──
     if (visualizerFullScreen)
@@ -2539,16 +2745,28 @@ void MainComponent::resized()
             gforceDisplay.setVisible(false);
             geissDisplay.setVisible(false);
             projectMDisplay.setVisible(false);
-            visExitButton.setVisible(false);
             visSelector.setVisible(false);
             setVisControlsVisible();
             projectorButton.setVisible(false);
+
+#if JUCE_IOS
+            // On iOS always show EXIT since there's no Escape key
+            visExitButton.setBounds(visArea.getRight() - 60, visArea.getY() + 5, 55, 35);
+            visExitButton.setVisible(true);
+            visExitButton.toFront(false);
+#else
+            visExitButton.setVisible(false);
+#endif
 
             if (currentVisMode == 0) { spectrumDisplay.setBounds(visArea); spectrumDisplay.setAlpha(1.0f); spectrumDisplay.setVisible(true); }
             else if (currentVisMode == 1) { lissajousDisplay.setBounds(visArea); lissajousDisplay.setVisible(true); }
             else if (currentVisMode == 2) { gforceDisplay.setBounds(visArea); gforceDisplay.setVisible(true); }
             else if (currentVisMode == 3) { geissDisplay.setBounds(visArea); geissDisplay.setVisible(true); }
             else if (currentVisMode == 4) { projectMDisplay.setBounds(visArea); projectMDisplay.setVisible(true); }
+
+#if JUCE_IOS
+            visExitButton.toFront(false);
+#endif
         }
         else
         {

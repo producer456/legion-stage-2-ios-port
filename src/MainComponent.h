@@ -182,6 +182,15 @@ private:
     juce::TextButton audioSettingsButton { "Audio Settings" };
     juce::TextButton settingsButton { "Settings" };
     juce::TextButton fullscreenButton { "VIS" };
+
+    // ── iOS-only ──
+    juce::TextButton phoneMenuButton { "..." };
+    bool forceIPadLayout = false;
+    juce::Point<float> swipeStartPos;
+    bool swipeActive = false;
+    void showPhoneMenu();
+    void mouseDrag(const juce::MouseEvent& e) override;
+    void mouseUp(const juce::MouseEvent& e) override;
     juce::ComboBox visSelector;
     bool visualizerFullScreen = false;
     int currentVisMode = 0;  // 0=Spectrum, 1=Lissajous, 2=G-Force, 3=Geiss
