@@ -67,18 +67,29 @@ void PluginHost::scanForPlugins()
 
     for (const auto& info : auInfos)
     {
-        juce::PluginDescription desc;
-        desc.pluginFormatName = "AudioUnit";
-        desc.name = info.name;
-        desc.manufacturerName = info.manufacturer;
-        desc.fileOrIdentifier = info.identifier;
-        desc.uniqueId = info.uniqueId;
-        desc.isInstrument = info.isInstrument;
-        desc.numInputChannels = 0;
-        desc.numOutputChannels = 2;
+        auto parts = juce::StringArray::fromTokens(info.identifier, "/", "");
+        if (parts.size() != 3) continue;
 
-        if (!knownPluginList.getTypeForIdentifierString(info.identifier))
-            knownPluginList.addType(desc);
+        juce::String category;
+        if (info.isInstrument) category = "Synths";
+        else if (info.category == "Effect") category = "Effects";
+        else if (info.category == "Generator") category = "Generators";
+        else if (info.category == "MIDI") category = "MidiEffects";
+        else category = "Effects";
+
+        juce::PluginDescription pd;
+        pd.name = info.name;
+        pd.pluginFormatName = "AudioUnit";
+        pd.category = info.category;
+        pd.manufacturerName = info.manufacturer;
+        pd.isInstrument = info.isInstrument;
+        pd.numInputChannels = info.isInstrument ? 0 : 2;
+        pd.numOutputChannels = 2;
+        pd.uniqueId = info.uniqueId;
+        // JUCE AU identifier format: "AudioUnit:Category/type,subtype,manufacturer"
+        pd.fileOrIdentifier = "AudioUnit:" + category + "/" + parts[0] + "," + parts[1] + "," + parts[2];
+
+        knownPluginList.addType(pd);
     }
 }
 
