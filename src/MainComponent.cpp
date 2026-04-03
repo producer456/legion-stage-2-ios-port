@@ -975,6 +975,14 @@ MainComponent::MainComponent()
     scanPlugins();
     scanMidiDevices();
     selectTrack(0);
+
+#if JUCE_IOS
+    // AUv3 extensions may take time to register with the system — rescan after a delay
+    juce::Timer::callAfterDelay(3000, [this] { scanPlugins(); });
+    // Force layout refresh after orientation settles
+    juce::Timer::callAfterDelay(500, [this] { resized(); repaint(); });
+#endif
+
     updateStatusLabel();
 
     // Initial undo snapshot
