@@ -2901,17 +2901,29 @@ void MainComponent::resized()
     duplicateClipButton.setVisible(true);
     splitClipButton.setVisible(true);
     quantizeButton.setVisible(true);
-    gridSelector.setVisible(true);
     saveButton.setVisible(true);
     loadButton.setVisible(true);
     undoButton.setVisible(true);
     redoButton.setVisible(true);
-    themeSelector.setVisible(true);
-    audioSettingsButton.setVisible(true);
-    midi2Button.setVisible(true);
     pluginSelector.setVisible(true);
     openEditorButton.setVisible(true);
     midiInputSelector.setVisible(true);
+    midiRefreshButton.setVisible(true);
+#if JUCE_IOS
+    // Hide desktop-only controls on iOS
+    themeSelector.setVisible(false);
+    gridSelector.setVisible(!isPhone);
+    audioSettingsButton.setVisible(false);  // shown in top bar
+    midi2Button.setVisible(!isPhone);
+    visSelector.setVisible(!isPhone);
+    quickKeysButton.setVisible(!isPhone);
+    tapTempoButton.setVisible(false);       // shown in top bar on iPad
+    bpmArrowButton.setVisible(false);
+#else
+    gridSelector.setVisible(true);
+    themeSelector.setVisible(true);
+    audioSettingsButton.setVisible(true);
+    midi2Button.setVisible(true);
     midiRefreshButton.setVisible(true);
     for (int i = 0; i < NUM_FX_SLOTS; ++i)
     {
@@ -2935,52 +2947,73 @@ void MainComponent::resized()
     projectMDisplay.setVisible(currentVisMode == 4);
     visExitButton.setVisible(false);
     projectorButton.setVisible(false);
-    visSelector.setVisible(true);
+    visSelector.setVisible(!isPhone);
     fullscreenButton.setVisible(true);
-    midi2Button.setVisible(true);
     setVisControlsVisible();
+#endif // JUCE_IOS
 
-    // ── Edit Toolbar ──
+#if JUCE_IOS
+    // ── iOS Edit Toolbar — compact, evenly spaced ──
+    if (!isPhone)
+    {
+        auto toolbar = area.removeFromTop(50).reduced(4, 4);
+        int gap = 3;
+        int numT = 14; // new, del, dupe, split, quant, grid, save, load, undo, redo, vis, m2, qk, fullscreen
+        int tbw = (toolbar.getWidth() - (numT - 1) * gap) / numT;
+
+        newClipButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        deleteClipButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        duplicateClipButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        splitClipButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        quantizeButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        gridSelector.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        saveButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        loadButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        undoButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        redoButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        visSelector.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        midi2Button.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        quickKeysButton.setBounds(toolbar.removeFromLeft(tbw)); toolbar.removeFromLeft(gap);
+        fullscreenButton.setBounds(toolbar.removeFromLeft(toolbar.getWidth()));
+    }
+    else
+    {
+        // iPhone — toolbar already handled in top bar rows, hide desktop toolbar items
+        newClipButton.setVisible(true);
+        deleteClipButton.setVisible(true);
+        duplicateClipButton.setVisible(true);
+        splitClipButton.setVisible(true);
+        quantizeButton.setVisible(true);
+        saveButton.setVisible(true);
+        loadButton.setVisible(true);
+        undoButton.setVisible(true);
+        redoButton.setVisible(true);
+    }
+#else
+    // ── Desktop Edit Toolbar ──
     auto toolbar = area.removeFromTop(85).reduced(4, 4);
-    newClipButton.setBounds(toolbar.removeFromLeft(110));
-    toolbar.removeFromLeft(3);
-    deleteClipButton.setBounds(toolbar.removeFromLeft(95));
-    toolbar.removeFromLeft(3);
-    duplicateClipButton.setBounds(toolbar.removeFromLeft(110));
-    toolbar.removeFromLeft(3);
-    splitClipButton.setBounds(toolbar.removeFromLeft(65));
-    toolbar.removeFromLeft(2);
-    quantizeButton.setBounds(toolbar.removeFromLeft(82));
-    toolbar.removeFromLeft(4);
-    gridSelector.setBounds(toolbar.removeFromLeft(75));
-    toolbar.removeFromLeft(4);
-    saveButton.setBounds(toolbar.removeFromLeft(60));
-    toolbar.removeFromLeft(2);
-    loadButton.setBounds(toolbar.removeFromLeft(60));
-    toolbar.removeFromLeft(2);
-    undoButton.setBounds(toolbar.removeFromLeft(60));
-    toolbar.removeFromLeft(2);
+    newClipButton.setBounds(toolbar.removeFromLeft(110)); toolbar.removeFromLeft(3);
+    deleteClipButton.setBounds(toolbar.removeFromLeft(95)); toolbar.removeFromLeft(3);
+    duplicateClipButton.setBounds(toolbar.removeFromLeft(110)); toolbar.removeFromLeft(3);
+    splitClipButton.setBounds(toolbar.removeFromLeft(65)); toolbar.removeFromLeft(2);
+    quantizeButton.setBounds(toolbar.removeFromLeft(82)); toolbar.removeFromLeft(4);
+    gridSelector.setBounds(toolbar.removeFromLeft(75)); toolbar.removeFromLeft(4);
+    saveButton.setBounds(toolbar.removeFromLeft(60)); toolbar.removeFromLeft(2);
+    loadButton.setBounds(toolbar.removeFromLeft(60)); toolbar.removeFromLeft(2);
+    undoButton.setBounds(toolbar.removeFromLeft(60)); toolbar.removeFromLeft(2);
     redoButton.setBounds(toolbar.removeFromLeft(60));
 
-    // Pack remaining controls at the right end of the toolbar
-    tapTempoButton.setBounds(toolbar.removeFromRight(60));
-    toolbar.removeFromRight(3);
-    bpmArrowButton.setBounds(toolbar.removeFromRight(28));
-    toolbar.removeFromRight(2);
-    bpmLabel.setBounds(toolbar.removeFromRight(80));
-    toolbar.removeFromRight(6);
-    midi2Button.setBounds(toolbar.removeFromRight(42));
-    toolbar.removeFromRight(2);
-    quickKeysButton.setBounds(toolbar.removeFromRight(36));
-    toolbar.removeFromRight(2);
-    visSelector.setBounds(toolbar.removeFromRight(72));
-    toolbar.removeFromRight(2);
+    tapTempoButton.setBounds(toolbar.removeFromRight(60)); toolbar.removeFromRight(3);
+    bpmArrowButton.setBounds(toolbar.removeFromRight(28)); toolbar.removeFromRight(2);
+    bpmLabel.setBounds(toolbar.removeFromRight(80)); toolbar.removeFromRight(6);
+    midi2Button.setBounds(toolbar.removeFromRight(42)); toolbar.removeFromRight(2);
+    quickKeysButton.setBounds(toolbar.removeFromRight(36)); toolbar.removeFromRight(2);
+    visSelector.setBounds(toolbar.removeFromRight(72)); toolbar.removeFromRight(2);
     projectorButton.setVisible(false);
-    fullscreenButton.setBounds(toolbar.removeFromRight(46));
-    toolbar.removeFromRight(2);
-    audioSettingsButton.setBounds(toolbar.removeFromRight(92));
-    toolbar.removeFromRight(2);
+    fullscreenButton.setBounds(toolbar.removeFromRight(46)); toolbar.removeFromRight(2);
+    audioSettingsButton.setBounds(toolbar.removeFromRight(92)); toolbar.removeFromRight(2);
     themeSelector.setBounds(toolbar.removeFromRight(92));
+#endif
 
     // ── Right Panel ──
     auto rightPanel = area.removeFromRight(rightPanelW).reduced(8, 4);
