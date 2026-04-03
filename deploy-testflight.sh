@@ -11,7 +11,7 @@ ARCHIVE_PATH="/tmp/LegionStage2.xcarchive"
 EXPORT_PATH="/tmp/LegionStage2Export"
 API_KEY="FV5WR6A335"
 API_ISSUER="063d077f-1dbb-4904-8ead-515fe477da68"
-INTERNAL_GROUP_ID="f7bfbd76-3c8c-4411-9c27-af47b73d7c2e"
+INTERNAL_GROUP_ID="598e0a30-ecbd-42d0-85e1-2a103e4b26a5"
 KEY_FILE="$HOME/.appstoreconnect/private_keys/AuthKey_${API_KEY}.p8"
 
 get_token() {
