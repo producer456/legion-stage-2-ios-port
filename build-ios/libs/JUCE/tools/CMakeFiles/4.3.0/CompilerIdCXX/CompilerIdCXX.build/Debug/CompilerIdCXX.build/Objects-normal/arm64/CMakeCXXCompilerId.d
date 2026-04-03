@@ -1,0 +1,2 @@
+dependencies: \
+  /Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/CMakeFiles/4.3.0/CompilerIdCXX/CMakeCXXCompilerId.cpp

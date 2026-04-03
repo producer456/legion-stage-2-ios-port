@@ -1366,7 +1366,7 @@ void MainComponent::selectMidiDevice()
 
     int idx = selectedId - 3;
     if (idx < 0 || idx >= midiDevices.size()) { updateStatusLabel(); return; }
-    auto& d = midiDevices[idx];
+    const auto& d = midiDevices[idx];
     deviceManager.setMidiInputDeviceEnabled(d.identifier, true);
     // Route through our callback so we can intercept CI SysEx
     deviceManager.addMidiInputDeviceCallback(d.identifier, this);

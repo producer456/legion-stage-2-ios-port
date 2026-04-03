@@ -3,6 +3,8 @@
 #include <JuceHeader.h>
 #include "GamepadHandler.h"
 
+#if !JUCE_IOS
+
 // Transparent HUD overlay showing left controller mode + right controller vis context.
 class GamepadOverlayComponent : public juce::Component, public juce::Timer
 {
@@ -189,3 +191,5 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(GamepadOverlayComponent)
 };
+
+#endif // !JUCE_IOS

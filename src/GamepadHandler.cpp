@@ -1,5 +1,7 @@
 #include "GamepadHandler.h"
 
+#if !JUCE_IOS
+
 #if JUCE_WINDOWS
  #include <Windows.h>
  #include <Xinput.h>
@@ -445,3 +447,5 @@ void GamepadHandler::handleRightVisuals()
     // (already handled by sendAxisCCs)
 #endif
 }
+
+#endif // !JUCE_IOS

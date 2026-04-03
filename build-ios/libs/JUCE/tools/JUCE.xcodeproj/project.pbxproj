@@ -1,0 +1,576 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		2D2D3BA2E2876AADFDC4D77F /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6D082C3F493A4DC88E0CCC40 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				A3FB0412DCE796A356C7DB72 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		41DC3EFF3F09361A5EF383E6 /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 13F6BC6442ED4DFB9A089EC9 /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				902BE47FD0084C97B76DD918 /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		B1CE6D980A1DD5BD261AD4F8 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 410B59C0EC224BF59141E82D /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				8F50295D6D2F3207F175A9F9 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				0A33BC237EF14EBA80D6037C /* PBXTargetDependency */,
+				8AFBB39A0C2D4D679B87F6F2 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		2061FE178EC64E4EB7DD6702 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics.mm */ = {isa = PBXBuildFile; fileRef = ED92A8B04F9644A0A5689A05 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics.mm */; };
+		20F8E092BA4746DF8D25E4EB /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm */ = {isa = PBXBuildFile; fileRef = 3828A384B9584FECBD2AF063 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm */; };
+		290F3526A6674C1EA95D5EA2 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp */ = {isa = PBXBuildFile; fileRef = 3E4ECC69E0E84411AF72A7B4 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp */; };
+		45606A786B4B438E91131488 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 706E68D2B60C4004986059E7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/CMakeLists.txt */; };
+		61B7D6DE34334902A2287208 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp */ = {isa = PBXBuildFile; fileRef = 2F1C78B408B6457A84D07D28 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp */; };
+		67C9B042DAEB42C996CF657F /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXBuildFile; fileRef = 4762D7E2F489493B9E2A4B8C /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core.mm */; };
+		82A75FF3E86B424B8A7D3C58 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_events/juce_events.mm */ = {isa = PBXBuildFile; fileRef = DD5663B9FA764C3BA596B213 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_events/juce_events.mm */; };
+		8B8AB52D5318498C82837DBA /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Cocoa.framework */ = {isa = PBXBuildFile; fileRef = 4E07F857B3754AEFB60B4DB7 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Cocoa.framework */; };
+		8CFCFDA485E640DB9422C5F4 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */ = {isa = PBXBuildFile; fileRef = 7B790E52B51247E4ABCA4D35 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */; };
+		8E6FB07D17C14A34AC1096F8 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Security.framework */ = {isa = PBXBuildFile; fileRef = 7F972B7FE3DC4D48BA4DD81E /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Security.framework */; };
+		A86015D195484CDF931946FA /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/QuartzCore.framework */ = {isa = PBXBuildFile; fileRef = 49467922A9894F51B941DBAE /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/QuartzCore.framework */; };
+		C0C9B5DB705A44EC9CC71C47 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */ = {isa = PBXBuildFile; fileRef = AD386C3E744A4625A35B6BC7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */; };
+		D9B75EE689F9404CAAABD522 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/IOKit.framework */ = {isa = PBXBuildFile; fileRef = AA414FC153934D54BDCFEC47 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/IOKit.framework */; };
+		E56C41572ACB4BFCBAF45BBE /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/Main.cpp */ = {isa = PBXBuildFile; fileRef = 27278EBD23B942F5A0B1D54B /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/Main.cpp */; };
+		EC8ACF3DA6464DBA995D091B /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Foundation.framework */ = {isa = PBXBuildFile; fileRef = 3E5A89A36E0A4F82B2FB36BC /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Foundation.framework */; };
+		F9D0E370D00F49AFB529A72B /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c */ = {isa = PBXBuildFile; fileRef = 389357E3BC654236B08346CB /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		6BAAAC4C572E419CA66DD081 /* Custom */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Custom;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		631785EF0DD8409F96685805 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D378DAED99640B38090C95B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D2D3BA2E2876AADFDC4D77F;
+			remoteInfo = ZERO_CHECK;
+		};
+		84266A435F2A43B4993F4379 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D378DAED99640B38090C95B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1CE6D980A1DD5BD261AD4F8;
+			remoteInfo = ALL_BUILD;
+		};
+		926BA332A53B4846BCC1FD93 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D378DAED99640B38090C95B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEE75BB69C85C9BCBA6ECC35;
+			remoteInfo = juceaide;
+		};
+		EA8B3095065841BB8EAD4E56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D378DAED99640B38090C95B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D2D3BA2E2876AADFDC4D77F;
+			remoteInfo = ZERO_CHECK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		27278EBD23B942F5A0B1D54B /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/Main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Main.cpp; path = extras/Build/juceaide/Main.cpp; sourceTree = SOURCE_ROOT; };
+		2F1C78B408B6457A84D07D28 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = juce_graphics_Harfbuzz.cpp; path = modules/juce_graphics/juce_graphics_Harfbuzz.cpp; sourceTree = SOURCE_ROOT; };
+		3828A384B9584FECBD2AF063 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_data_structures.mm; path = modules/juce_data_structures/juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
+		389357E3BC654236B08346CB /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = juce_graphics_Sheenbidi.c; path = modules/juce_graphics/juce_graphics_Sheenbidi.c; sourceTree = SOURCE_ROOT; };
+		38B41C942BF5489596189722 /* juceaide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = juceaide; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E4ECC69E0E84411AF72A7B4 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = juce_core_CompilationTime.cpp; path = modules/juce_core/juce_core_CompilationTime.cpp; sourceTree = SOURCE_ROOT; };
+		3E5A89A36E0A4F82B2FB36BC /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Foundation.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		4762D7E2F489493B9E2A4B8C /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_core.mm; path = modules/juce_core/juce_core.mm; sourceTree = SOURCE_ROOT; };
+		49467922A9894F51B941DBAE /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/QuartzCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		4E07F857B3754AEFB60B4DB7 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Cocoa.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		60369FECFE984BBCA0305A5F /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		706E68D2B60C4004986059E7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = extras/Build/juceaide/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		7B790E52B51247E4ABCA4D35 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_gui_basics.mm; path = modules/juce_gui_basics/juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
+		7F972B7FE3DC4D48BA4DD81E /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Security.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Security.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		AA414FC153934D54BDCFEC47 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/IOKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		AD386C3E744A4625A35B6BC7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = juce_build_tools.cpp; path = extras/Build/juce_build_tools/juce_build_tools.cpp; sourceTree = SOURCE_ROOT; };
+		DD5663B9FA764C3BA596B213 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_events/juce_events.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_events.mm; path = modules/juce_events/juce_events.mm; sourceTree = SOURCE_ROOT; };
+		ED92A8B04F9644A0A5689A05 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_graphics.mm; path = modules/juce_graphics/juce_graphics.mm; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63E417FFD9504B0FA711F539 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C3A895C3516409D91289F6C /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				BB84C7A525254CA9AD9A501A /* CMake Rules */,
+				60369FECFE984BBCA0305A5F /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		2E8D1860D3DA4938BDD11A08 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		5BD99DFB80A34C4A80AF6B6A /* juceaide */ = {
+			isa = PBXGroup;
+			children = (
+				FA5F391506B84C97A7962FC2 /* Source Files */,
+				706E68D2B60C4004986059E7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/CMakeLists.txt */,
+			);
+			name = juceaide;
+			sourceTree = "<group>";
+		};
+		7A2ADA24EE754C01999E98B9 = {
+			isa = PBXGroup;
+			children = (
+				2C3A895C3516409D91289F6C /* ALL_BUILD */,
+				5BD99DFB80A34C4A80AF6B6A /* juceaide */,
+				AA2FA35AFF5943CDBDE6A0B5 /* Products */,
+				CEFE72B187D8457E980BC143 /* Frameworks */,
+				2E8D1860D3DA4938BDD11A08 /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		AA2FA35AFF5943CDBDE6A0B5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38B41C942BF5489596189722 /* juceaide */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BB84C7A525254CA9AD9A501A /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		CEFE72B187D8457E980BC143 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49467922A9894F51B941DBAE /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/QuartzCore.framework */,
+				4E07F857B3754AEFB60B4DB7 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Cocoa.framework */,
+				3E5A89A36E0A4F82B2FB36BC /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Foundation.framework */,
+				AA414FC153934D54BDCFEC47 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/IOKit.framework */,
+				7F972B7FE3DC4D48BA4DD81E /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk/System/Library/Frameworks/Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA5F391506B84C97A7962FC2 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				AD386C3E744A4625A35B6BC7 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */,
+				27278EBD23B942F5A0B1D54B /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/Main.cpp */,
+				4762D7E2F489493B9E2A4B8C /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core.mm */,
+				3E4ECC69E0E84411AF72A7B4 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp */,
+				3828A384B9584FECBD2AF063 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm */,
+				DD5663B9FA764C3BA596B213 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_events/juce_events.mm */,
+				ED92A8B04F9644A0A5689A05 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics.mm */,
+				2F1C78B408B6457A84D07D28 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp */,
+				389357E3BC654236B08346CB /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c */,
+				7B790E52B51247E4ABCA4D35 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEE75BB69C85C9BCBA6ECC35 /* juceaide */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68D91F8821AF4B0CB2B89461 /* Build configuration list for PBXNativeTarget "juceaide" */;
+			buildPhases = (
+				5AABD4A2C46443AFA0EBFDCD /* Sources */,
+				63E417FFD9504B0FA711F539 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8E6AA92F19144083A465AF81 /* PBXTargetDependency */,
+			);
+			name = juceaide;
+			productName = juceaide;
+			productReference = 38B41C942BF5489596189722 /* juceaide */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9D378DAED99640B38090C95B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2640;
+			};
+			buildConfigurationList = 6BE394735FAB4D23A88915A8 /* Build configuration list for PBXProject "JUCE" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				6BAAAC4C572E419CA66DD081 /* Custom */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 7A2ADA24EE754C01999E98B9;
+			projectDirPath = "/Users/admin/legion-stage-2-ios-port/libs/JUCE";
+			projectRoot = "";
+			targets = (
+				B1CE6D980A1DD5BD261AD4F8 /* ALL_BUILD */,
+				41DC3EFF3F09361A5EF383E6 /* install */,
+				CEE75BB69C85C9BCBA6ECC35 /* juceaide */,
+				2D2D3BA2E2876AADFDC4D77F /* ZERO_CHECK */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		87AF4882E018677E2624B544 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		8F50295D6D2F3207F175A9F9 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+"/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/CMakeFiles/ALL_BUILD"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Custom\"; then :
+  cd /Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		93426DA6A4AC2C2AC9CE883C /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "CMake PostBuild Rules";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Custom\"; then :
+  cd /Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools
+  /opt/homebrew/bin/cmake -DBUILD_TYPE=$CONFIGURATION$EFFECTIVE_PLATFORM_NAME -P cmake_install.cmake
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		A3FB0412DCE796A356C7DB72 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+"/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/CMakeFiles/ZERO_CHECK"			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Custom\"; then :
+  cd /Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools
+  make -f /Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5AABD4A2C46443AFA0EBFDCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0C9B5DB705A44EC9CC71C47 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */,
+				E56C41572ACB4BFCBAF45BBE /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build/juceaide/Main.cpp */,
+				67C9B042DAEB42C996CF657F /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core.mm */,
+				290F3526A6674C1EA95D5EA2 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_core/juce_core_CompilationTime.cpp */,
+				20F8E092BA4746DF8D25E4EB /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_data_structures/juce_data_structures.mm */,
+				82A75FF3E86B424B8A7D3C58 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_events/juce_events.mm */,
+				2061FE178EC64E4EB7DD6702 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics.mm */,
+				61B7D6DE34334902A2287208 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp */,
+				F9D0E370D00F49AFB529A72B /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c */,
+				8CFCFDA485E640DB9422C5F4 /* /Users/admin/legion-stage-2-ios-port/libs/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0A33BC237EF14EBA80D6037C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D2D3BA2E2876AADFDC4D77F /* ZERO_CHECK */;
+			targetProxy = EA8B3095065841BB8EAD4E56 /* PBXContainerItemProxy */;
+		};
+		8AFBB39A0C2D4D679B87F6F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEE75BB69C85C9BCBA6ECC35 /* juceaide */;
+			targetProxy = 926BA332A53B4846BCC1FD93 /* PBXContainerItemProxy */;
+		};
+		8E6AA92F19144083A465AF81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D2D3BA2E2876AADFDC4D77F /* ZERO_CHECK */;
+			targetProxy = 631785EF0DD8409F96685805 /* PBXContainerItemProxy */;
+		};
+		902BE47FD0084C97B76DD918 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1CE6D980A1DD5BD261AD4F8 /* ALL_BUILD */;
+			targetProxy = 84266A435F2A43B4993F4379 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5D4F65CC32CE45E9AACEB404 /* Custom */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				MACOSX_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = "/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/build";
+			};
+			name = Custom;
+		};
+		5E0F505A8E3C46DAA3CB8267 /* Custom */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Custom;
+		};
+		9CED048FE96C410EA45F45AB /* Custom */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Custom;
+		};
+		B75EDEC766E744BC85E561CB /* Custom */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Custom;
+		};
+		FC89857F23BC41C7B6E32DC0 /* Custom */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Custom";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_DISABLE_JUCE_VERSION_PRINTING=1'","'JUCE_USE_CURL=0'","'JUCE_SILENCE_XCODE_15_LINKER_WARNING=1'","'JUCE_MODULE_AVAILABLE_juce_build_tools=1'","'JUCE_MODULE_AVAILABLE_juce_gui_basics=1'","'JUCE_MODULE_AVAILABLE_juce_graphics=1'","'JUCE_MODULE_AVAILABLE_juce_events=1'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_data_structures=1'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/JuceLibraryCode","/Users/admin/legion-stage-2-ios-port/libs/JUCE/extras/Build","/Users/admin/legion-stage-2-ios-port/libs/JUCE/modules","$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wsign-conversion -Wbool-conversion -Wextra-semi -Wunreachable-code -Wcast-align -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic -Wdeprecated -Wfloat-equal -Wmissing-field-initializers ","$(inherited)");
+				OTHER_CPLUSPLUSFLAGS = "'-std=c++17' -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Wconstant-conversion -Wsign-conversion -Wbool-conversion -Wextra-semi -Wunreachable-code -Wcast-align -Wshift-sign-overflow -Wmissing-prototypes -Wnullable-to-nonnull-conversion -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic -Wdeprecated -Wfloat-equal -Wmissing-field-initializers -Wzero-as-null-pointer-constant -Wunused-private-field -Woverloaded-virtual -Wreorder -Winconsistent-missing-destructor-override ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-weak_framework Metal","-weak_framework MetalKit","-framework QuartzCore","-framework Cocoa","-framework Foundation","-framework IOKit","-framework Security","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = juceaide;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/admin/legion-stage-2-ios-port/build-ios/libs/JUCE/tools/build/juceaide.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Custom;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13F6BC6442ED4DFB9A089EC9 /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B75EDEC766E744BC85E561CB /* Custom */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Custom;
+		};
+		410B59C0EC224BF59141E82D /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CED048FE96C410EA45F45AB /* Custom */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Custom;
+		};
+		68D91F8821AF4B0CB2B89461 /* Build configuration list for PBXNativeTarget "juceaide" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC89857F23BC41C7B6E32DC0 /* Custom */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Custom;
+		};
+		6BE394735FAB4D23A88915A8 /* Build configuration list for PBXProject "JUCE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D4F65CC32CE45E9AACEB404 /* Custom */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Custom;
+		};
+		6D082C3F493A4DC88E0CCC40 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E0F505A8E3C46DAA3CB8267 /* Custom */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Custom;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9D378DAED99640B38090C95B /* Project object */;
+}

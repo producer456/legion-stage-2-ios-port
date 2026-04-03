@@ -11,7 +11,37 @@ public:
     std::function<void(int)>        onNoteOff;
     std::function<void(const juce::MidiMessage&)> onMidiMessage;
     std::function<void(int)>        onTrackSelect;
+    std::function<void(float, float)> onScroll;
+    std::function<void(float)>      onZoom;
+    std::function<void()>           onPlay;
+    std::function<void()>           onStop;
+    std::function<void()>           onRecord;
+    std::function<void()>           onUndo;
+    std::function<void()>           onRedo;
+    std::function<void()>           onVisCycleType;
+    std::function<void()>           onVisToggleFullscreen;
+    std::function<void()>           onGeissCycleWave;
+    std::function<void()>           onGeissCyclePalette;
+    std::function<void()>           onGeissNewScene;
+    std::function<void(float)>      onGeissWaveScale;
+    std::function<void()>           onGeissToggleWarp;
+    std::function<void()>           onGeissToggleAutoPilot;
+    std::function<void()>           onPMNext;
+    std::function<void()>           onPMPrev;
+    std::function<void()>           onPMRandom;
+    std::function<void()>           onPMToggleLock;
+    std::function<void()>           onGFMoreRibbons;
+    std::function<void()>           onGFFewerRibbons;
+    std::function<void()>           onGFCycleTrail;
+    std::function<void()>           onSpecCycleDecay;
+    std::function<void()>           onSpecSensUp;
+    std::function<void()>           onSpecSensDown;
+    std::function<void()>           onLissZoomIn;
+    std::function<void()>           onLissZoomOut;
+    std::function<void()>           onLissCycleDots;
     void setEnabled(bool) {}
+    void setVisMode(int) {}
+    bool isEnabled()   const { return false; }
     bool isConnected() const { return false; }
     int  getMode()     const { return 0; }
     void poll() {}
@@ -20,6 +50,7 @@ class GamepadOverlayComponent : public juce::Component {
 public:
     void setMode(int) {}
     void setConnected(bool) {}
+    void setVisMode(int) {}
 };
 #else
 
