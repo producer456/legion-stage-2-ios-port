@@ -12,6 +12,19 @@
   #pragma comment(lib, "setupapi.lib")
 #endif
 
+// Apple IOKit HID (macOS only — iOS has no public USB HID API)
+#if JUCE_MAC && !JUCE_IOS
+  #include <IOKit/hid/IOHIDManager.h>
+  #include <IOKit/hid/IOHIDDevice.h>
+
+  struct AppleHIDContext
+  {
+      IOHIDManagerRef  manager  = nullptr;
+      IOHIDDeviceRef   device   = nullptr;
+      CFRunLoopRef     runLoop  = nullptr;
+  };
+#endif
+
 QuickKeysHandler::QuickKeysHandler()
     : Thread("QuickKeysHID")
 {
@@ -216,6 +229,121 @@ bool QuickKeysHandler::openDevice()
 
     logFile.appendText("Done scanning. Found " + juce::String(xencelabsCount) + " Xencelabs interfaces, none matched.\n");
     SetupDiDestroyDeviceInfoList(devInfo);
+
+#elif JUCE_MAC && !JUCE_IOS
+    // ── Apple IOKit HID implementation ──
+    auto* ctx = new AppleHIDContext();
+
+    ctx->manager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+    if (ctx->manager == nullptr) { delete ctx; return false; }
+
+    // Match Xencelabs Quick Keys (wired + wireless)
+    auto makeMatch = [](uint16_t vid, uint16_t pid) -> CFDictionaryRef {
+        int v = vid, p = pid;
+        CFNumberRef vidNum = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &v);
+        CFNumberRef pidNum = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &p);
+        const void* keys[]   = { CFSTR(kIOHIDVendorIDKey),  CFSTR(kIOHIDProductIDKey) };
+        const void* values[] = { vidNum, pidNum };
+        auto dict = CFDictionaryCreate(kCFAllocatorDefault, keys, values, 2,
+            &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+        CFRelease(vidNum); CFRelease(pidNum);
+        return dict;
+    };
+
+    CFDictionaryRef match1 = makeMatch(VENDOR_ID, PRODUCT_ID_WIRED);
+    CFDictionaryRef match2 = makeMatch(VENDOR_ID, PRODUCT_ID_WIRELESS);
+    const void* matches[] = { match1, match2 };
+    CFArrayRef matchArray = CFArrayCreate(kCFAllocatorDefault, matches, 2, &kCFTypeArrayCallBacks);
+    IOHIDManagerSetDeviceMatchingMultiple(ctx->manager, matchArray);
+    CFRelease(match1); CFRelease(match2); CFRelease(matchArray);
+
+    IOHIDManagerScheduleWithRunLoop(ctx->manager, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+    IOReturn openResult = IOHIDManagerOpen(ctx->manager, kIOHIDOptionsTypeNone);
+    if (openResult != kIOReturnSuccess)
+    {
+        CFRelease(ctx->manager);
+        delete ctx;
+        return false;
+    }
+
+    // Pump the run loop briefly to let matching complete
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+
+    // Get matched devices
+    CFSetRef deviceSet = IOHIDManagerCopyDevices(ctx->manager);
+    if (deviceSet == nullptr || CFSetGetCount(deviceSet) == 0)
+    {
+        if (deviceSet) CFRelease(deviceSet);
+        IOHIDManagerClose(ctx->manager, kIOHIDOptionsTypeNone);
+        CFRelease(ctx->manager);
+        delete ctx;
+        return false;
+    }
+
+    // Take the first matched device
+    CFIndex count = CFSetGetCount(deviceSet);
+    std::vector<IOHIDDeviceRef> devices(static_cast<size_t>(count));
+    CFSetGetValues(deviceSet, reinterpret_cast<const void**>(devices.data()));
+
+    // Find the interface with output reports (the control interface)
+    IOHIDDeviceRef selectedDevice = nullptr;
+    for (auto dev : devices)
+    {
+        CFTypeRef maxOutput = IOHIDDeviceGetProperty(dev, CFSTR(kIOHIDMaxOutputReportSizeKey));
+        if (maxOutput)
+        {
+            int outputSize = 0;
+            if (CFNumberGetValue(static_cast<CFNumberRef>(maxOutput), kCFNumberIntType, &outputSize))
+            {
+                if (outputSize >= 32)
+                {
+                    selectedDevice = dev;
+                    reportSize = outputSize;
+
+                    // Check if wireless
+                    CFTypeRef pidRef = IOHIDDeviceGetProperty(dev, CFSTR(kIOHIDProductIDKey));
+                    if (pidRef)
+                    {
+                        int pid = 0;
+                        CFNumberGetValue(static_cast<CFNumberRef>(pidRef), kCFNumberIntType, &pid);
+                        isWireless = (pid == PRODUCT_ID_WIRELESS);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    CFRelease(deviceSet);
+
+    if (selectedDevice == nullptr)
+    {
+        IOHIDManagerClose(ctx->manager, kIOHIDOptionsTypeNone);
+        CFRelease(ctx->manager);
+        delete ctx;
+        return false;
+    }
+
+    ctx->device  = selectedDevice;
+    ctx->runLoop = CFRunLoopGetCurrent();
+    deviceHandle = ctx;
+    deviceHandleRead = ctx;
+    deviceConnected.store(true);
+
+    subscribeToEvents();
+    setDisplayBrightness(3);
+    refreshDisplay();
+
+    startThread(juce::Thread::Priority::normal);
+
+    if (callbacks.onStatus)
+    {
+        juce::MessageManager::callAsync([this] {
+            if (callbacks.onStatus)
+                callbacks.onStatus("Quick Keys connected");
+        });
+    }
+    return true;
+
 #endif
     return false;
 }
@@ -227,9 +355,17 @@ void QuickKeysHandler::closeDevice()
 #ifdef _WIN32
     if (deviceHandle != nullptr && deviceHandle != INVALID_HANDLE_VALUE)
         CloseHandle(static_cast<HANDLE>(deviceHandle));
-
-    // Only close the read handle if it's a separate handle (not the same as write)
-    // deviceHandleRead is always the same as deviceHandle, so don't double-close
+#elif JUCE_MAC && !JUCE_IOS
+    if (deviceHandle != nullptr)
+    {
+        auto* ctx = static_cast<AppleHIDContext*>(deviceHandle);
+        if (ctx->manager)
+        {
+            IOHIDManagerClose(ctx->manager, kIOHIDOptionsTypeNone);
+            CFRelease(ctx->manager);
+        }
+        delete ctx;
+    }
 #endif
 
     deviceHandle = nullptr;
@@ -363,12 +499,48 @@ void QuickKeysHandler::run()
         // Drain any pending display refresh requested by the message thread
         if (pendingDisplayRefresh.exchange(false))
             refreshDisplay();
+#elif JUCE_MAC && !JUCE_IOS
+        auto* ctx = static_cast<AppleHIDContext*>(deviceHandleRead);
+        if (ctx == nullptr || ctx->device == nullptr)
+        {
+            Thread::sleep(100);
+            continue;
+        }
+
+        // Pump the IOKit run loop to receive input reports (100ms timeout)
+        // IOHIDDevice delivers reports via the run loop scheduled in openDevice()
+        uint8_t readBuf[INPUT_BUF_SIZE] = {};
+        CFIndex readLen = INPUT_BUF_SIZE;
+        IOReturn result = IOHIDDeviceGetReport(ctx->device,
+            kIOHIDReportTypeInput, 0, readBuf, &readLen);
+
+        if (result == kIOReturnSuccess && readLen > 0)
+        {
+            processInputReport(readBuf, static_cast<int>(readLen));
+        }
+        else
+        {
+            // No data available — brief sleep to avoid busy-waiting
+            Thread::sleep(10);
+        }
+
+        // Handle pending display refresh
+        if (pendingDisplayRefresh.exchange(false))
+            if (modeAnnouncedUntilMs == 0 || juce::Time::currentTimeMillis() >= modeAnnouncedUntilMs)
+                refreshDisplay();
+
+        // Re-subscribe every ~2s to reclaim display
+        if (++resubscribeTick >= 200)
+        {
+            resubscribeTick = 0;
+            subscribeToEvents();
+            if (modeAnnouncedUntilMs == 0 || juce::Time::currentTimeMillis() >= modeAnnouncedUntilMs)
+                refreshDisplay();
+        }
 #else
-        Thread::sleep(100); // Non-Windows placeholder
+        Thread::sleep(100);
 #endif
     }
-
-    logFile.appendText("Read thread exiting\n");
 }
 
 // ── HID Output ──────────────────────────────────────────────────────────────
@@ -408,6 +580,17 @@ void QuickKeysHandler::sendHidReport(const uint8_t* data, int size)
         "SEND [" + juce::String(bytesWritten) + "b] ok=" + juce::String((int)ok)
         + " err=" + juce::String((int)err)
         + " : " + hex + "...\n");
+#elif JUCE_MAC && !JUCE_IOS
+    auto* ctx = static_cast<AppleHIDContext*>(deviceHandle);
+    if (ctx == nullptr || ctx->device == nullptr) return;
+
+    uint8_t fullReport[HID_BUFFER_SIZE] = {};
+    int copyLen = juce::jmin(size, reportSize);
+    memcpy(fullReport, data, static_cast<size_t>(copyLen));
+
+    IOReturn result = IOHIDDeviceSetReport(ctx->device,
+        kIOHIDReportTypeOutput, fullReport[0], fullReport, static_cast<CFIndex>(reportSize));
+    juce::ignoreUnused(result);
 #else
     juce::ignoreUnused(data, size);
 #endif

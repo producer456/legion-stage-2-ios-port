@@ -108,3 +108,11 @@ target_link_libraries(Sequencer PRIVATE
     juce::juce_gui_extra
     juce::juce_dsp
 )
+
+# IOKit framework for USB HID (QuickKeys handler — macOS only)
+if(APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    find_library(IOKIT_FRAMEWORK IOKit)
+    if(IOKIT_FRAMEWORK)
+        target_link_libraries(Sequencer PRIVATE ${IOKIT_FRAMEWORK})
+    endif()
+endif()
